@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { LineChart, CandlestickChart, TrendingUp, BookOpen } from "lucide-react";
+import { LineChart, CandlestickChart, BookOpen } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const chartSymbols = {
   forex: "FX:EURUSD",
-  stocks: "NASDAQ:AAPL",
   crypto: "BINANCE:BTCUSDT",
 };
 
@@ -52,6 +51,8 @@ const TradingCharts = () => {
         enable_publishing: false,
         allow_symbol_change: true,
         calendar: false,
+        hide_side_toolbar: false,
+        studies: ["RSI@tv-basicstudies", "MASimple@tv-basicstudies", "MACD@tv-basicstudies"],
         support_host: "https://www.tradingview.com",
       });
 
@@ -83,28 +84,24 @@ const TradingCharts = () => {
           <div className="max-w-6xl mx-auto">
             {/* Market Selector */}
             <Tabs defaultValue="forex" className="mb-8" onValueChange={(value) => setActiveMarket(value as keyof typeof chartSymbols)}>
-              <TabsList className="grid w-full max-w-md mx-auto grid-cols-3">
-                <TabsTrigger value="forex" className="gap-2">
-                  <LineChart className="w-4 h-4" />
-                  Forex
+              <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2">
+                <TabsTrigger value="forex" className="gap-2 py-3">
+                  <LineChart className="w-5 h-5" />
+                  Forex Trading
                 </TabsTrigger>
-                <TabsTrigger value="stocks" className="gap-2">
-                  <TrendingUp className="w-4 h-4" />
-                  Stocks
-                </TabsTrigger>
-                <TabsTrigger value="crypto" className="gap-2">
-                  <CandlestickChart className="w-4 h-4" />
-                  Crypto
+                <TabsTrigger value="crypto" className="gap-2 py-3">
+                  <CandlestickChart className="w-5 h-5" />
+                  Crypto Trading
                 </TabsTrigger>
               </TabsList>
             </Tabs>
 
-            {/* TradingView Widget */}
-            <div className="bg-card rounded-2xl shadow-card overflow-hidden">
+            {/* TradingView Widget - Bigger and More Interactive */}
+            <div className="bg-card rounded-2xl shadow-elevated overflow-hidden">
               <div
                 ref={containerRef}
                 className="tradingview-widget-container"
-                style={{ height: "600px", width: "100%" }}
+                style={{ height: "800px", width: "100%" }}
               />
             </div>
           </div>

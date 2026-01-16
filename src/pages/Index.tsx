@@ -1,40 +1,16 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, TrendingUp, Shield, BarChart3, Users, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, TrendingUp, Shield, BarChart3, Users, LineChart, CandlestickChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
+import LiveTradeFeed from "@/components/LiveTradeFeed";
 import heroBg from "@/assets/hero-bg.jpg";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const testimonials = [
-  {
-    name: "Michael Nguyen",
-    role: "Forex Trader",
-    content: "Working with Rosie transformed my trading approach. Her calm, methodical strategies helped me achieve consistent 15% monthly returns.",
-    rating: 5,
-    profit: "+47%",
-  },
-  {
-    name: "Sarah Chen",
-    role: "Crypto Investor",
-    content: "Rosie's guidance gave me the confidence to navigate volatile markets. Her risk management techniques are exceptional.",
-    rating: 5,
-    profit: "+62%",
-  },
-  {
-    name: "David Park",
-    role: "Stock Trader",
-    content: "The personalized attention and expert analysis I received exceeded all expectations. Highly recommend for serious traders.",
-    rating: 5,
-    profit: "+38%",
-  },
-  {
-    name: "Lisa Tran",
-    role: "Day Trader",
-    content: "Rosie's peaceful approach to trading helped me overcome emotional decision-making. My portfolio has never been healthier.",
-    rating: 5,
-    profit: "+55%",
-  },
-];
+const chartSymbols = {
+  forex: "FX:EURUSD",
+  crypto: "BINANCE:BTCUSDT",
+};
 
 const services = [
   {
@@ -55,22 +31,36 @@ const services = [
 ];
 
 const Index = () => {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeMarket, setActiveMarket] = useState<keyof typeof chartSymbols>("forex");
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    if (containerRef.current) {
+      containerRef.current.innerHTML = "";
 
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+      script.type = "text/javascript";
+      script.async = true;
+      script.innerHTML = JSON.stringify({
+        autosize: true,
+        symbol: chartSymbols[activeMarket],
+        interval: "D",
+        timezone: "Etc/UTC",
+        theme: "light",
+        style: "1",
+        locale: "en",
+        enable_publishing: false,
+        allow_symbol_change: true,
+        calendar: false,
+        hide_side_toolbar: false,
+        studies: ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"],
+        support_host: "https://www.tradingview.com",
+      });
 
-  const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+      containerRef.current.appendChild(script);
+    }
+  }, [activeMarket]);
 
   return (
     <Layout>
@@ -86,7 +76,7 @@ const Index = () => {
           <div className="max-w-2xl animate-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
               <TrendingUp className="w-4 h-4" />
-              <span className="text-sm font-medium">Professional Trading Services</span>
+              <span className="text-sm font-medium">Trusted Forex & Crypto Trading Platform</span>
             </div>
             
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
@@ -95,8 +85,8 @@ const Index = () => {
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-              Empowering your financial future with expert trading strategies. 
-              Experience a calm, professional approach to building sustainable wealth.
+              Empowering your financial future with expert Forex and Crypto trading strategies. 
+              Experience real-time trading results and a calm, professional approach to building sustainable wealth.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
@@ -107,7 +97,7 @@ const Index = () => {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="#results">See Client Results</a>
+                <a href="#live-trades">See Live Updates</a>
               </Button>
             </div>
           </div>
@@ -132,105 +122,87 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Client Results Section */}
-      <section id="results" className="py-20 md:py-28 bg-secondary/30">
+      {/* Live Trade Updates Section */}
+      <section id="live-trades" className="py-20 md:py-28 bg-secondary/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Success Stories
+              Real-Time Trading Results
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Discover how our clients have achieved remarkable success through tailored trading strategies
-              and expert guidance.
+              Watch live trade updates from our community. See actual entry points, take profits, 
+              and real-time market signals as they happen.
             </p>
           </div>
 
-          {/* Testimonial Carousel */}
-          <div className="relative max-w-4xl mx-auto">
-            <div className="overflow-hidden rounded-2xl bg-card shadow-elevated p-8 md:p-12">
-              <div className="flex items-start gap-6">
-                <div className="hidden md:block">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-                    <span className="text-3xl font-serif font-bold text-primary">
-                      {testimonials[currentTestimonial].name.charAt(0)}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="flex-1">
-                  <div className="flex items-center gap-1 mb-4">
-                    {Array.from({ length: testimonials[currentTestimonial].rating }).map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-accent text-accent" />
-                    ))}
-                  </div>
-                  
-                  <blockquote className="text-lg md:text-xl text-foreground mb-6 leading-relaxed">
-                    "{testimonials[currentTestimonial].content}"
-                  </blockquote>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-semibold text-foreground">
-                        {testimonials[currentTestimonial].name}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {testimonials[currentTestimonial].role}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-serif font-bold text-primary">
-                        {testimonials[currentTestimonial].profit}
-                      </div>
-                      <div className="text-xs text-muted-foreground">Portfolio Growth</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="max-w-4xl mx-auto">
+            <LiveTradeFeed />
+          </div>
+        </div>
+      </section>
+
+      {/* Trading Charts Section */}
+      <section id="charts" className="py-20 md:py-28">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Live Trading Charts
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Explore real-time Forex and Crypto market data. Analyze trends, identify opportunities, 
+              and make informed trading decisions with professional-grade charts.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            {/* Market Selector */}
+            <Tabs 
+              defaultValue="forex" 
+              className="mb-6" 
+              onValueChange={(value) => setActiveMarket(value as keyof typeof chartSymbols)}
+            >
+              <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
+                <TabsTrigger value="forex" className="gap-2">
+                  <LineChart className="w-4 h-4" />
+                  Forex Trading
+                </TabsTrigger>
+                <TabsTrigger value="crypto" className="gap-2">
+                  <CandlestickChart className="w-4 h-4" />
+                  Crypto Trading
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+
+            {/* TradingView Widget */}
+            <div className="bg-card rounded-2xl shadow-elevated overflow-hidden">
+              <div
+                ref={containerRef}
+                className="tradingview-widget-container"
+                style={{ height: "700px", width: "100%" }}
+              />
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <button
-                onClick={prevTestimonial}
-                className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === currentTestimonial
-                        ? "bg-primary w-6"
-                        : "bg-border hover:bg-primary/50"
-                    }`}
-                  />
-                ))}
-              </div>
-              
-              <button
-                onClick={nextTestimonial}
-                className="w-10 h-10 rounded-full bg-card shadow-soft flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+            <div className="text-center mt-6">
+              <Button variant="outline" size="lg" asChild>
+                <Link to="/trading-charts">
+                  View Full Charts Page
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-20 md:py-28">
+      <section className="py-20 md:py-28 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Trading Services
+              Forex & Crypto Trading Services
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive trading solutions designed to help you achieve your financial goals
+              Comprehensive Forex and Crypto trading solutions designed to help you achieve your financial goals
               with confidence and peace of mind.
             </p>
           </div>
@@ -265,8 +237,8 @@ const Index = () => {
             Ready to Start Your Trading Journey?
           </h2>
           <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-            Join hundreds of successful traders who have transformed their financial future
-            with expert guidance and proven strategies.
+            Join hundreds of successful Forex and Crypto traders who have transformed their financial future
+            with expert guidance, real-time signals, and proven strategies.
           </p>
           <Button
             size="lg"
