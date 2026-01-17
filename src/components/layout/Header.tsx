@@ -11,6 +11,7 @@ const Header = () => {
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Trading Charts", path: "/charts" },
+    { name: "Forex News", path: "/news" },
     { name: "Contact", path: "/contact" },
   ];
 
