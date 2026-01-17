@@ -106,9 +106,9 @@ const Index = () => {
         {/* Floating Stats */}
         <div className="absolute bottom-8 right-8 hidden lg:flex gap-6">
           {[
-            { value: "500+", label: "Happy Clients" },
-            { value: "98%", label: "Success Rate" },
             { value: "5+", label: "Years Experience" },
+            { value: "Forex", label: "& Crypto Expert" },
+            { value: "24/7", label: "Market Analysis" },
           ].map((stat, index) => (
             <div
               key={index}
@@ -237,8 +237,8 @@ const Index = () => {
             Ready to Start Your Trading Journey?
           </h2>
           <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-            Join hundreds of successful Forex and Crypto traders who have transformed their financial future
-            with expert guidance, real-time signals, and proven strategies.
+            Join a disciplined community of aspiring traders and build sustainable wealth
+            with 5+ years of expert guidance, real-time signals, and proven strategies.
           </p>
           <Button
             size="lg"
