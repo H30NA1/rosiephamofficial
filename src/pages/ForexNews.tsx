@@ -18,7 +18,7 @@ const currencies = [
 ];
 
 const ForexNewsPage = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState("ALL");
+  const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [selectedImpact, setSelectedImpact] = useState<"all" | "high" | "medium" | "low">("all");
 
   return (

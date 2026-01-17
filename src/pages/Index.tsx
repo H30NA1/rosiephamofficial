@@ -1,33 +1,33 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, TrendingUp, Shield, BarChart3, Users, LineChart, CandlestickChart, Newspaper } from "lucide-react";
+import { ArrowRight, TrendingUp, Shield, BarChart3, Users, LineChart, CandlestickChart, Newspaper, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
-import LiveTradeFeed from "@/components/LiveTradeFeed";
+import ZaloGroupFeed from "@/components/ZaloGroupFeed";
 import ForexNews from "@/components/ForexNews";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useEffect, useRef, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const chartSymbols = {
-  forex: "FX:EURUSD",
+  forex: "OANDA:XAUUSD",
   crypto: "BINANCE:BTCUSDT",
 };
 
 const services = [
   {
     icon: BarChart3,
-    title: "Real-time Market Analysis",
-    description: "Stay ahead with up-to-the-minute market insights and technical analysis from our expert team.",
+    title: "King Ichi",
+    description: "Chỉ báo chuyên sâu: Buy/Sell, xu hướng, và các vùng hỗ trợ – kháng cực cực kỳ chính xác.",
   },
   {
-    icon: Users,
-    title: "Expert Training & Guidance",
-    description: "Learn proven trading strategies through personalized mentorship and comprehensive training programs.",
+    icon: LineChart,
+    title: "RSI Pro",
+    description: "Nhận diện vùng quá mua – quá bán và các tín hiệu phân kỳ độc quyền.",
   },
   {
-    icon: Shield,
-    title: "Transparent Environment",
-    description: "Trade with confidence in our reliable, transparent platform built on trust and integrity.",
+    icon: TrendingUp,
+    title: "Breakout & Wave Pro",
+    description: "Xác định điểm vào E1–E2 rõ ràng và cảnh báo đảo chiều để tránh FOMO.",
   },
 ];
 
@@ -47,7 +47,7 @@ const Index = () => {
         width: "100%",
         height: "100%",
         symbol: chartSymbols[activeMarket],
-        interval: "D",
+        interval: "30",
         timezone: "Etc/UTC",
         theme: "light",
         style: "1",
@@ -56,7 +56,12 @@ const Index = () => {
         allow_symbol_change: true,
         calendar: false,
         hide_side_toolbar: false,
-        studies: ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"],
+        studies: [
+          "RSI@tv-basicstudies",
+          "IchimokuCloud@tv-basicstudies",
+          "Volume@tv-basicstudies",
+          "MACD@tv-basicstudies"
+        ],
         support_host: "https://www.tradingview.com",
       });
 
@@ -68,29 +73,29 @@ const Index = () => {
     <Layout>
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent" />
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl animate-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
               <TrendingUp className="w-4 h-4" />
               <span className="text-sm font-medium">Trusted Forex & Crypto Trading Platform</span>
             </div>
-            
+
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
               Welcome to Trading with{" "}
               <span className="text-gradient">Rosie Phạm</span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-              Empowering your financial future with expert Forex and Crypto trading strategies. 
+              Empowering your financial future with expert Forex and Crypto trading strategies.
               Experience real-time trading results and a calm, professional approach to building sustainable wealth.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" asChild className="shadow-soft hover:shadow-card transition-all">
                 <Link to="/contact">
@@ -124,21 +129,25 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Live Trade Updates Section */}
+      {/* Zalo Group Feed Section */}
       <section id="live-trades" className="py-20 md:py-28 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 mb-4">
+              <MessageCircle className="w-4 h-4" />
+              <span className="text-sm font-medium">Join our VIP Community</span>
+            </div>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Real-Time Trading Results
+              Real-Time Signal Group
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Watch live trade updates from our community. See actual entry points, take profits, 
-              and real-time market signals as they happen.
+              Stay connected with our exclusive Zalo community. Get instant entry points,
+              live results, and professional trade feedback directly from Rosie Phạm.
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <LiveTradeFeed />
+          <div className="max-w-4xl mx-auto px-4">
+            <ZaloGroupFeed />
           </div>
         </div>
       </section>
@@ -148,19 +157,19 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Live Trading Charts
+              Hệ Thống Giao Dịch KingIchi
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Explore real-time Forex and Crypto market data. Analyze trends, identify opportunities, 
-              and make informed trading decisions with professional-grade charts.
+              Sử dụng bộ công cụ 5 chỉ báo chuyên sâu giúp tối ưu hóa điểm vùng vào lệnh:
+              King Ichi (Xu hướng), RSI Pro (Phân kỳ), Breakout (E1-E2), Wave Pro & Vol Pro.
             </p>
           </div>
 
           <div className="max-w-6xl mx-auto">
             {/* Market Selector */}
-            <Tabs 
-              defaultValue="forex" 
-              className="mb-6" 
+            <Tabs
+              defaultValue="forex"
+              className="mb-6"
               onValueChange={(value) => setActiveMarket(value as keyof typeof chartSymbols)}
             >
               <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
@@ -213,8 +222,8 @@ const Index = () => {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <ForexNews showOnlyUSD={true} maxItems={6} />
-            
+            <ForexNews showOnlyUSD={true} filterDate="today" />
+
             <div className="text-center mt-6">
               <Button variant="outline" size="lg" asChild>
                 <Link to="/news">
@@ -249,11 +258,11 @@ const Index = () => {
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
                   <service.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
                 </div>
-                
+
                 <h3 className="font-serif text-xl font-semibold text-foreground mb-3">
                   {service.title}
                 </h3>
-                
+
                 <p className="text-muted-foreground leading-relaxed">
                   {service.description}
                 </p>

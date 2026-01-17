@@ -2,97 +2,152 @@ import { ArrowRight, Target, Heart, Award } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
-import rosiePortrait from "@/assets/rosie-portrait.jpg";
+import rosiePrimary from "@/assets/rosie-primary.png";
+import rosieSecondary from "@/assets/rosie-secondary.png";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+// Import required modules
+import { EffectCards } from 'swiper/modules';
 
 const About = () => {
   const values = [
     {
       icon: Target,
-      title: "Precision",
-      description: "Every trading decision is backed by thorough analysis and strategic planning.",
+      title: "Precision Analysis",
+      description: "Utilizing the KingIchi Suite for high-probability signals in Gold (XAUUSD) and Crypto markets.",
     },
     {
       icon: Heart,
-      title: "Integrity",
-      description: "We believe in transparent, honest practices that prioritize your financial wellbeing.",
+      title: "Transparent Mentorship",
+      description: "Building trust through real-time results and honest guidance for successful trading journeys.",
     },
     {
       icon: Award,
-      title: "Excellence",
-      description: "Committed to delivering exceptional results through continuous learning and improvement.",
+      title: "5+ Years Experience",
+      description: "Five years of proven expertise in navigating global financial markets with discipline and strategy.",
     },
+  ];
+
+  const creatorImages = [
+    { src: rosiePrimary, alt: "Rosie Phạm Professional Portrait" },
+    { src: rosieSecondary, alt: "Rosie Phạm Trading Expert" },
   ];
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="py-20 md:py-28 bg-hero-gradient">
+      {/* SEO Optimized Header */}
+      <section className="py-20 md:py-28 bg-hero-gradient overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="animate-fade-up">
-              <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6">
-                Meet <span className="text-gradient">Rosie Phạm</span>
+              <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Professional Trader & Mentor</span>
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
+                About <span className="text-gradient">Rosie Phạm</span>
               </h1>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                Your trusted guide in the world of trading. With over 5 years of experience
-                in financial markets, I've dedicated my career to helping individuals
-                achieve their financial goals through informed, strategic trading.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                My journey began with a passion for understanding market dynamics and
-                a desire to share that knowledge with others. Today, I work with clients
-                worldwide, providing personalized guidance and support on their trading journey.
-              </p>
-            </div>
-
-            <div className="relative animate-scale-in">
-              <div className="relative z-10 rounded-2xl overflow-hidden shadow-elevated">
-                <img
-                  src={rosiePortrait}
-                  alt="Rosie Phạm - Trading Expert"
-                  className="w-full h-auto object-cover"
-                />
+              <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+                <p>
+                  Rosie Phạm is a leading <span className="text-foreground font-semibold">Forex and Crypto trading expert</span> in Vietnam, specialized in <span className="text-foreground font-semibold">Gold (XAUUSD)</span> and high-impact market analysis. With over <span className="text-foreground font-semibold">5 years of professional experience</span>, she has pioneered the use of the <span className="text-foreground font-semibold">KingIchi Trading Suite</span> to deliver consistent, precision-based results.
+                </p>
+                <p>
+                  Her mission is to simplify the complexities of the financial markets for traders of all levels. By combining technical discipline with the proprietary <span className="text-foreground font-semibold">KingIchi indicators</span> (RSI Pro, Wave Pro, and Vol Pro), Rosie provides a roadmap for sustainable wealth building in the digital age.
+                </p>
               </div>
-              <div className="absolute -bottom-6 -right-6 w-full h-full bg-primary/20 rounded-2xl -z-10" />
+            </div>
+
+            <div className="animate-scale-in flex justify-center lg:justify-end">
+              <div className="w-full max-w-[480px] perspective-1000">
+                <Swiper
+                  effect={'cards'}
+                  grabCursor={true}
+                  modules={[EffectCards]}
+                  className="w-full aspect-[3/4] rounded-3xl"
+                >
+                  {creatorImages.map((img, index) => (
+                    <SwiperSlide key={index} className="rounded-3xl shadow-2xl overflow-hidden border-4 border-white bg-card">
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        className="w-full h-full object-cover"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <div className="mt-8 text-center text-xs text-muted-foreground animate-pulse font-medium">
+                  ← Swipe to see more →
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Philosophy Section */}
-      <section className="py-20 md:py-28">
+      {/* Expertise Section */}
+      <section className="py-20 bg-secondary/20">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-8">
-              Trading Philosophy
-            </h2>
-            <blockquote className="text-xl md:text-2xl text-foreground italic leading-relaxed mb-8">
-              "Our approach is centered around building sustainable wealth in a calm,
-              consistent, and responsible manner. Success in trading isn't about
-              quick wins—it's about making informed decisions that compound over time."
-            </blockquote>
-            <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
+          <div className="grid md:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+            <div>
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-8 text-balance uppercase tracking-tight">
+                Expertise in <span className="text-primary italic">Global Markets</span>
+              </h2>
+              <ul className="space-y-6">
+                {[
+                  { label: "Expert XAUUSD Strategy", desc: "Specialized in Gold trading with a focus on institutional liquidity zones." },
+                  { label: "KingIchi Methodology", desc: "Exclusive mastery of the King Ichi cloud system for trend following." },
+                  { label: "Crypto Portfolio Management", desc: "Identifying long-term trends in BTC and high-potential altcoins." }
+                ].map((item, idx) => (
+                  <li key={idx} className="flex gap-4 group">
+                    <div className="mt-1 bg-primary/10 p-2 rounded-xl group-hover:bg-primary/20 transition-colors">
+                      <Award className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-foreground mb-1">{item.label}</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="relative">
+              <div className="bg-card p-10 rounded-[2.5rem] shadow-elevated border border-border/50 relative z-10">
+                <blockquote className="text-xl md:text-2xl text-foreground italic leading-tight mb-8 font-serif">
+                  "Kỷ luật là chìa khóa của sự tự do tài chính. Tại Rosie Phạm Trading, chúng tôi không chỉ giao dịch, chúng tôi xây dựng một tư duy thị trường đẳng cấp."
+                </blockquote>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-1 px-1 bg-primary rounded-full" />
+                  <span className="font-bold text-foreground uppercase tracking-widest text-xs">Rosie Phạm</span>
+                </div>
+              </div>
+              <div className="absolute -inset-4 bg-primary/5 rounded-[3rem] -rotate-2 -z-0" />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-20 md:py-28 bg-secondary/30">
+      {/* Trust Section */}
+      <section className="py-24">
         <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground text-center mb-16">
-            Core Values
-          </h2>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Establishing Market Trust
+            </h2>
+            <p className="text-muted-foreground">Everything we do is built on these three foundational principles.</p>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {values.map((value, index) => (
               <div
                 key={index}
-                className="bg-card rounded-2xl p-8 shadow-card text-center hover:shadow-elevated transition-all duration-300"
+                className="bg-card rounded-3xl p-8 shadow-card text-center hover:shadow-elevated transition-all duration-500 border border-border/50 group"
               >
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                  <value.icon className="w-8 h-8 text-primary" />
+                <div className="w-20 h-20 rounded-2xl bg-primary/5 flex items-center justify-center mx-auto mb-8 group-hover:bg-primary/10 group-hover:-translate-y-2 transition-all">
+                  <value.icon className="w-10 h-10 text-primary" />
                 </div>
-                <h3 className="font-serif text-xl font-semibold text-foreground mb-3">
+                <h3 className="font-serif text-2xl font-bold text-foreground mb-4">
                   {value.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
@@ -104,24 +159,23 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission Section */}
+      {/* Final SEO CTA Section */}
       <section className="py-20 md:py-28">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-card-gradient rounded-3xl p-8 md:p-12 shadow-elevated">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6 text-center">
-              Our Mission
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-5xl mx-auto bg-slate-900 text-white rounded-[3rem] p-10 md:p-20 shadow-2xl relative overflow-hidden text-center">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-[100px] -mr-40 -mt-40" />
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-8 relative z-10 tracking-tight">
+              Start Your <span className="text-primary italic">Trading Journey</span> Today
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground text-center leading-relaxed mb-8">
-              Empowering individuals to make informed, profitable trading decisions in a
-              peaceful and supportive environment. We believe everyone deserves access to
-              professional trading guidance, regardless of their starting point.
+            <p className="text-lg md:text-xl opacity-80 mb-12 relative z-10 max-w-2xl mx-auto leading-relaxed">
+              Join the official Rosie Phạm community. Receive expert signals, real-time market updates, and 1-on-1 mentorship for Forex, Gold, and Crypto trading.
             </p>
-            <div className="text-center">
-              <Button size="lg" asChild className="shadow-soft">
-                <Link to="/contact">
-                  Join Our Community
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center relative z-10">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-bold h-14 px-10 rounded-2xl text-lg shadow-lg" asChild>
+                <Link to="/contact">Get Expert Mentorship</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="border-white/20 bg-white/5 hover:bg-white/10 text-white h-14 px-10 rounded-2xl text-lg backdrop-blur-sm transition-all">
+                <a href="https://zalo.me/g/sxkwkm310" target="_blank" rel="noopener noreferrer">Join Free Zalo Group</a>
               </Button>
             </div>
           </div>

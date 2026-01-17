@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const chartSymbols = {
-  forex: "FX:EURUSD",
+  forex: "OANDA:XAUUSD",
   crypto: "BINANCE:BTCUSDT",
 };
 
@@ -44,7 +44,7 @@ const TradingCharts = () => {
         width: "100%",
         height: "100%",
         symbol: chartSymbols[activeMarket],
-        interval: "D",
+        interval: "30",
         timezone: "Etc/UTC",
         theme: "light",
         style: "1",
@@ -53,7 +53,12 @@ const TradingCharts = () => {
         allow_symbol_change: true,
         calendar: false,
         hide_side_toolbar: false,
-        studies: ["RSI@tv-basicstudies", "MASimple@tv-basicstudies", "MACD@tv-basicstudies"],
+        studies: [
+          "RSI@tv-basicstudies",
+          "IchimokuCloud@tv-basicstudies",
+          "Volume@tv-basicstudies",
+          "MACD@tv-basicstudies"
+        ],
         support_host: "https://www.tradingview.com",
       });
 

@@ -74,6 +74,7 @@ interface ForexNewsProps {
   filterDate?: "today" | "upcoming" | "upcoming_week" | "upcoming_month" | "all";
   maxItems?: number;
   className?: string;
+  showOnlyUSD?: boolean;
 }
 
 const ForexNews = ({
@@ -81,7 +82,8 @@ const ForexNews = ({
   impactFilter = "all",
   filterDate = "all",
   maxItems,
-  className
+  className,
+  showOnlyUSD = false
 }: ForexNewsProps) => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -103,7 +105,9 @@ const ForexNews = ({
     });
 
     // 1. Filter by Currency
-    if (currencyFilter !== "ALL") {
+    if (showOnlyUSD) {
+      allEvents = allEvents.filter(e => e.currency === "USD");
+    } else if (currencyFilter !== "ALL") {
       allEvents = allEvents.filter(e => e.currency === currencyFilter);
     }
 
