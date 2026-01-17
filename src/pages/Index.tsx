@@ -44,7 +44,8 @@ const Index = () => {
       script.type = "text/javascript";
       script.async = true;
       script.innerHTML = JSON.stringify({
-        autosize: true,
+        width: "100%",
+        height: "100%",
         symbol: chartSymbols[activeMarket],
         interval: "D",
         timezone: "Etc/UTC",
@@ -175,11 +176,10 @@ const Index = () => {
             </Tabs>
 
             {/* TradingView Widget */}
-            <div className="bg-card rounded-2xl shadow-elevated overflow-hidden">
+            <div className="bg-card rounded-2xl shadow-elevated overflow-hidden" style={{ height: "700px" }}>
               <div
                 ref={containerRef}
-                className="tradingview-widget-container"
-                style={{ height: "80vh", minHeight: "600px", width: "100%" }}
+                className="tradingview-widget-container w-full h-full"
               />
             </div>
 
