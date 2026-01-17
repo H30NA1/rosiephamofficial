@@ -31,6 +31,7 @@ const ZaloGroupFeed = () => {
 
                 if (data.error === 0 && data.data) {
                     // Map Zalo API response to our UI structure
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const formattedMessages: ZaloSignal[] = data.data.map((m: any) => ({
                         id: m.message_id,
                         sender: m.from_name || "Rossy",

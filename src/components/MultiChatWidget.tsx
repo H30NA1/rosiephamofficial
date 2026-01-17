@@ -1,11 +1,30 @@
 import { useState } from "react";
-import { MessageCircle, X, Send, Phone } from "lucide-react";
+import { MessageCircle, X, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
+import AIChatWindow from "./AIChatWindow";
 
 const MultiChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+
+    const toggleAIChat = () => {
+        setIsAIChatOpen(!isAIChatOpen);
+        setIsOpen(false); // Close the menu when opening chat
+    };
 
     const contacts = [
+        {
+            name: "Rosie AI",
+            icon: (
+                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg animate-pulse">
+                    <Bot size={20} />
+                </div>
+            ),
+            action: toggleAIChat,
+            color: "hover:bg-primary/10",
+            textColor: "text-primary",
+            special: true
+        },
         {
             name: "Zalo",
             icon: (
@@ -46,61 +65,70 @@ const MultiChatWidget = () => {
     ];
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-            {/* Expanded Menu */}
-            <div className={cn(
-                "flex flex-col gap-3 transition-all duration-300 origin-bottom scale-0 opacity-0",
-                isOpen && "scale-100 opacity-100 mb-2"
-            )}>
-                {contacts.map((contact, index) => (
-                    <a
-                        key={contact.name}
-                        href={contact.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+        <>
+            <AIChatWindow isOpen={isAIChatOpen} onClose={() => setIsAIChatOpen(false)} />
+
+            <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+                {/* Expanded Menu */}
+                <div className={cn(
+                    "flex flex-col gap-3 transition-all duration-300 origin-bottom scale-0 opacity-0",
+                    isOpen && "scale-100 opacity-100 mb-2"
+                )}>
+                    {contacts.map((contact, index) => {
+                        const ItemWrapper = contact.url ? 'a' : 'div';
+                        const props = contact.url
+                            ? { href: contact.url, target: "_blank", rel: "noopener noreferrer" }
+                            : { onClick: contact.action, role: "button" };
+
+                        return (
+                            <ItemWrapper
+                                key={contact.name}
+                                {...props}
+                                className={cn(
+                                    "flex items-center gap-3 pr-4 pl-1 py-1 rounded-full bg-white/90 backdrop-blur-md shadow-lg border border-white/20 transition-all duration-300 hover:-translate-x-2 group cursor-pointer",
+                                    contact.color
+                                )}
+                                style={{ transitionDelay: `${index * 50}ms` }}
+                            >
+                                {contact.icon}
+                                <span className={cn("text-sm font-semibold", contact.textColor)}>
+                                    {contact.name === "Rosie AI" ? "Ask Rosie AI" : `Chat on ${contact.name}`}
+                                </span>
+                            </ItemWrapper>
+                        );
+                    })}
+                </div>
+
+                {/* Main Toggle Button */}
+                <div className="relative">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
                         className={cn(
-                            "flex items-center gap-3 pr-4 pl-1 py-1 rounded-full bg-white/90 backdrop-blur-md shadow-lg border border-white/20 transition-all duration-300 hover:-translate-x-2 group",
-                            contact.color
+                            "w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 overflow-hidden group",
+                            isOpen
+                                ? "bg-slate-800 rotate-90 text-white"
+                                : "bg-primary text-primary-foreground hover:scale-110 active:scale-95"
                         )}
-                        style={{ transitionDelay: `${index * 50}ms` }}
                     >
-                        {contact.icon}
-                        <span className={cn("text-sm font-semibold", contact.textColor)}>
-                            Chat on {contact.name}
-                        </span>
-                    </a>
-                ))}
-            </div>
+                        {isOpen ? (
+                            <X className="w-6 h-6 animate-in fade-in zoom-in duration-300" />
+                        ) : (
+                            <MessageCircle className="w-7 h-7 animate-in fade-in zoom-in duration-300 group-hover:rotate-12" />
+                        )}
+                    </button>
 
-            {/* Main Toggle Button */}
-            <div className="relative">
-                <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className={cn(
-                        "w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 overflow-hidden group",
-                        isOpen
-                            ? "bg-slate-800 rotate-90 text-white"
-                            : "bg-primary text-primary-foreground hover:scale-110 active:scale-95"
-                    )}
-                >
-                    {isOpen ? (
-                        <X className="w-6 h-6 animate-in fade-in zoom-in duration-300" />
-                    ) : (
-                        <MessageCircle className="w-7 h-7 animate-in fade-in zoom-in duration-300 group-hover:rotate-12" />
-                    )}
-                </button>
-
-                {/* Pulsing Notification */}
-                {!isOpen && (
-                    <span className="absolute -top-1 -right-1 flex h-5 w-5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-5 w-5 bg-accent text-[10px] font-bold text-accent-foreground items-center justify-center shadow-md">
-                            1
+                    {/* Pulsing Notification */}
+                    {!isOpen && !isAIChatOpen && (
+                        <span className="absolute -top-1 -right-1 flex h-5 w-5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-5 w-5 bg-accent text-[10px] font-bold text-accent-foreground items-center justify-center shadow-md">
+                                1
+                            </span>
                         </span>
-                    </span>
-                )}
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

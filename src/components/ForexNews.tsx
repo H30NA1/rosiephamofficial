@@ -181,7 +181,7 @@ const ForexNews = ({
     groups.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     return groups;
-  }, [currencyFilter, impactFilter, filterDate, maxItems]);
+  }, [currencyFilter, impactFilter, filterDate, maxItems, showOnlyUSD]);
 
   const getTitle = () => {
     if (filterDate === 'today') return "Events for Today";
