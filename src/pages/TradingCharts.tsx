@@ -41,7 +41,8 @@ const TradingCharts = () => {
       script.type = "text/javascript";
       script.async = true;
       script.innerHTML = JSON.stringify({
-        autosize: true,
+        width: "100%",
+        height: "100%",
         symbol: chartSymbols[activeMarket],
         interval: "D",
         timezone: "Etc/UTC",
@@ -97,11 +98,10 @@ const TradingCharts = () => {
             </Tabs>
 
             {/* TradingView Widget - Bigger and More Interactive */}
-            <div className="bg-card rounded-2xl shadow-elevated overflow-hidden">
+            <div className="bg-card rounded-2xl shadow-elevated overflow-hidden" style={{ height: "800px" }}>
               <div
                 ref={containerRef}
-                className="tradingview-widget-container"
-                style={{ height: "85vh", minHeight: "700px", width: "100%" }}
+                className="tradingview-widget-container w-full h-full"
               />
             </div>
           </div>
