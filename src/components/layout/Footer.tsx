@@ -9,15 +9,15 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-primary-foreground" />
+              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+                <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-cover" />
               </div>
               <span className="font-serif text-xl font-semibold">
                 Rosie Phạm
               </span>
             </Link>
             <p className="text-primary-foreground/70 max-w-sm leading-relaxed">
-              Empowering your financial future with expert trading strategies. 
+              Empowering your financial future with expert trading strategies.
               Join us on a journey to sustainable wealth building.
             </p>
           </div>

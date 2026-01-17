@@ -23,8 +23,8 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-soft group-hover:scale-105 transition-transform">
-              <TrendingUp className="w-5 h-5 text-primary-foreground" />
+            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-soft group-hover:scale-105 transition-transform">
+              <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-cover" />
             </div>
             <span className="font-serif text-xl font-semibold text-foreground">
               Rosie Phạm
@@ -37,11 +37,10 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(link.path)
+                className={`relative text-sm font-medium transition-colors hover:text-primary ${isActive(link.path)
                     ? "text-primary"
                     : "text-muted-foreground"
-                }`}
+                  }`}
               >
                 {link.name}
                 {isActive(link.path) && (
@@ -76,11 +75,10 @@ const Header = () => {
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`px-4 py-2 text-base font-medium transition-colors rounded-lg ${
-                    isActive(link.path)
+                  className={`px-4 py-2 text-base font-medium transition-colors rounded-lg ${isActive(link.path)
                       ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-muted"
-                  }`}
+                    }`}
                 >
                   {link.name}
                 </Link>
