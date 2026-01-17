@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import TradingCharts from "./pages/TradingCharts";
+import ForexNewsPage from "./pages/ForexNews";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,8 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/charts" element={<TradingCharts />} />
+          <Route path="/trading-charts" element={<TradingCharts />} />
+          <Route path="/news" element={<ForexNewsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
