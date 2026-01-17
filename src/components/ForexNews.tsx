@@ -1,158 +1,55 @@
-import { useState, useEffect } from "react";
-import { Calendar, Clock, AlertTriangle, TrendingUp, Flag } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Calendar, Clock, AlertTriangle, TrendingUp, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { forexData } from "@/data/forex-data";
 
-interface NewsEvent {
+// Type definitions based on the scraped data structure
+interface RawEvent {
   id: number;
-  time: string;
+  name: string;
   currency: string;
-  impact: "high" | "medium" | "low";
-  event: string;
-  actual?: string;
-  forecast?: string;
-  previous?: string;
+  impactName: string; // "low" | "medium" | "high" | "holiday"
+  timeLabel: string;
+  actual: string;
+  forecast: string;
+  previous: string;
+  date: string; // Start date of the group (we add this during flattening)
+  dateline: number; // Unix timestamp
 }
 
-// Simulated Forex Factory-style news data (USD focused for homepage)
-const generateUSDNews = (): NewsEvent[] => [
-  {
-    id: 1,
-    time: "08:30",
-    currency: "USD",
-    impact: "high",
-    event: "Core CPI m/m",
-    actual: "0.3%",
-    forecast: "0.2%",
-    previous: "0.2%",
-  },
-  {
-    id: 2,
-    time: "10:00",
-    currency: "USD",
-    impact: "high",
-    event: "FOMC Statement",
-    forecast: "",
-    previous: "",
-  },
-  {
-    id: 3,
-    time: "13:00",
-    currency: "USD",
-    impact: "medium",
-    event: "Fed Chair Powell Speaks",
-    forecast: "",
-    previous: "",
-  },
-  {
-    id: 4,
-    time: "08:30",
-    currency: "USD",
-    impact: "high",
-    event: "Non-Farm Payrolls",
-    actual: "256K",
-    forecast: "180K",
-    previous: "212K",
-  },
-  {
-    id: 5,
-    time: "08:30",
-    currency: "USD",
-    impact: "medium",
-    event: "Unemployment Rate",
-    actual: "4.1%",
-    forecast: "4.2%",
-    previous: "4.2%",
-  },
-  {
-    id: 6,
-    time: "10:00",
-    currency: "USD",
-    impact: "medium",
-    event: "ISM Manufacturing PMI",
-    forecast: "48.5",
-    previous: "49.3",
-  },
-];
-
-const generateAllNews = (): NewsEvent[] => [
-  ...generateUSDNews(),
-  {
-    id: 7,
-    time: "02:00",
-    currency: "EUR",
-    impact: "high",
-    event: "ECB Interest Rate Decision",
-    actual: "4.50%",
-    forecast: "4.50%",
-    previous: "4.50%",
-  },
-  {
-    id: 8,
-    time: "04:30",
-    currency: "GBP",
-    impact: "high",
-    event: "BOE Interest Rate Decision",
-    forecast: "5.25%",
-    previous: "5.25%",
-  },
-  {
-    id: 9,
-    time: "19:30",
-    currency: "AUD",
-    impact: "medium",
-    event: "RBA Rate Statement",
-    forecast: "",
-    previous: "",
-  },
-  {
-    id: 10,
-    time: "23:50",
-    currency: "JPY",
-    impact: "medium",
-    event: "BOJ Policy Rate",
-    actual: "-0.10%",
-    forecast: "-0.10%",
-    previous: "-0.10%",
-  },
-  {
-    id: 11,
-    time: "09:00",
-    currency: "CHF",
-    impact: "low",
-    event: "SNB Chairman Jordan Speaks",
-    forecast: "",
-    previous: "",
-  },
-  {
-    id: 12,
-    time: "21:30",
-    currency: "CAD",
-    impact: "high",
-    event: "Employment Change",
-    forecast: "15.0K",
-    previous: "24.9K",
-  },
-  {
-    id: 13,
-    time: "17:00",
-    currency: "NZD",
-    impact: "medium",
-    event: "RBNZ Interest Rate Decision",
-    forecast: "5.50%",
-    previous: "5.50%",
-  },
-];
+interface DayGroup {
+  date: string;
+  dateline: number;
+  events: RawEvent[];
+}
 
 const getImpactColor = (impact: string) => {
-  switch (impact) {
+  switch (impact.toLowerCase()) {
     case "high":
       return "bg-red-500";
     case "medium":
-      return "bg-amber-500";
+      return "bg-orange-400";
     case "low":
-      return "bg-green-500";
+      return "bg-yellow-400";
+    case "holiday":
+      return "bg-gray-400";
     default:
       return "bg-muted";
+  }
+};
+
+const getImpactLabel = (impact: string) => {
+  switch (impact.toLowerCase()) {
+    case "high":
+      return "High Impact";
+    case "medium":
+      return "Medium Impact";
+    case "low":
+      return "Low Impact";
+    case "holiday":
+      return "Holiday";
+    default:
+      return "Non-Economic";
   }
 };
 
@@ -166,148 +63,268 @@ const getCurrencyFlag = (currency: string) => {
     CAD: "🇨🇦",
     CHF: "🇨🇭",
     NZD: "🇳🇿",
+    CNY: "🇨🇳",
   };
-  return flags[currency] || "🏳️";
+  return flags[currency] || "🌍";
 };
 
 interface ForexNewsProps {
-  showOnlyUSD?: boolean;
+  currencyFilter?: string;
+  impactFilter?: "all" | "high" | "medium" | "low";
+  filterDate?: "today" | "upcoming" | "upcoming_week" | "upcoming_month" | "all";
   maxItems?: number;
+  className?: string;
 }
 
-const ForexNews = ({ showOnlyUSD = true, maxItems }: ForexNewsProps) => {
-  const [news, setNews] = useState<NewsEvent[]>([]);
+const ForexNews = ({
+  currencyFilter = "ALL",
+  impactFilter = "all",
+  filterDate = "all",
+  maxItems,
+  className
+}: ForexNewsProps) => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  useEffect(() => {
-    const allNews = showOnlyUSD ? generateUSDNews() : generateAllNews();
-    setNews(maxItems ? allNews.slice(0, maxItems) : allNews);
+  // Parse and flatten data or keep it grouped by day
+  const daysData = useMemo(() => {
+    const rawDays = forexData.days as unknown as DayGroup[];
 
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000);
+    // Get current date for filtering.
+    const now = new Date();
+    // Reset time to start of day for comparison
+    now.setHours(0, 0, 0, 0);
 
-    return () => clearInterval(timer);
-  }, [showOnlyUSD, maxItems]);
+    // Flatten to filter
+    let allEvents = rawDays.flatMap(day => {
+      return day.events.map(e => ({
+        ...e,
+        date: e.date // Use the event's specific date
+      }));
+    });
 
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // 1. Filter by Currency
+    if (currencyFilter !== "ALL") {
+      allEvents = allEvents.filter(e => e.currency === currencyFilter);
+    }
+
+    // 2. Filter by Impact
+    if (impactFilter !== "all") {
+      allEvents = allEvents.filter(e => e.impactName.toLowerCase() === impactFilter.toLowerCase());
+    }
+
+    // 3. Filter by Date
+    if (filterDate !== "all") {
+      allEvents = allEvents.filter(e => {
+        const eventDate = new Date(e.date);
+        eventDate.setHours(0, 0, 0, 0);
+
+        if (filterDate === "today") {
+          return eventDate.getTime() === now.getTime();
+        }
+
+        if (filterDate === "upcoming_week") {
+          // Logic: Display this week but exclude old dates (past days)
+          // Meaning: Today <= Date <= End of Week
+
+          // Calculate end of week (Saturday) - adjusting for week start?
+          // Usually standard week is Sun-Sat or Mon-Sun.
+          // Let's assume standard Calendar week ends on Saturday.
+          const endOfWeek = new Date(now);
+          const day = now.getDay();
+          const diff = 6 - day; // days remaining to Saturday
+          endOfWeek.setDate(now.getDate() + diff);
+          endOfWeek.setHours(23, 59, 59, 999);
+
+          return eventDate.getTime() >= now.getTime() && eventDate.getTime() <= endOfWeek.getTime();
+        }
+
+        if (filterDate === "upcoming_month") {
+          // Logic: Display this month but exclude old dates
+          // Meaning: Today <= Date <= End of Month
+
+          const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+          endOfMonth.setHours(23, 59, 59, 999);
+
+          return eventDate.getTime() >= now.getTime() && eventDate.getTime() <= endOfMonth.getTime();
+        }
+
+        // Fallback for generic "upcoming" (future only)
+        if (filterDate === "upcoming") {
+          return eventDate.getTime() >= now.getTime();
+        }
+
+        return true;
+      });
+    }
+
+    // 4. Limit items
+    if (maxItems) {
+      allEvents = allEvents.slice(0, maxItems);
+    }
+
+    // Re-group by date for display
+    const groups: DayGroup[] = [];
+    allEvents.forEach(event => {
+      let group = groups.find(g => g.date === event.date);
+      if (!group) {
+        group = { date: event.date, dateline: 0, events: [] };
+        groups.push(group);
+      }
+      group.events.push(event);
+    });
+
+    // Sort groups by date
+    groups.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    return groups;
+  }, [currencyFilter, impactFilter, filterDate, maxItems]);
+
+  const getTitle = () => {
+    if (filterDate === 'today') return "Events for Today";
+    if (filterDate === 'upcoming_week') return "Upcoming This Week";
+    if (filterDate === 'upcoming_month') return "Upcoming This Month";
+    return "Upcoming Events";
+  };
 
   return (
-    <div className="bg-card rounded-2xl shadow-elevated overflow-hidden">
+    <div className={cn("bg-card rounded-2xl shadow-xl overflow-hidden border border-border/50", className)}>
       {/* Header */}
-      <div className="bg-primary/5 border-b border-border px-6 py-4">
+      <div className="bg-gradient-to-r from-primary/10 to-transparent px-6 py-4 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative">
+            <div className="p-2 bg-primary/10 rounded-lg">
               <Calendar className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h3 className="font-semibold text-foreground">
-                {showOnlyUSD ? "USD Economic Calendar" : "Forex Factory News"}
+              <h3 className="font-semibold text-lg text-foreground tracking-tight">
+                {currencyFilter !== "ALL" ? `${currencyFilter} Calendar` : "Economic Calendar"}
               </h3>
-              <p className="text-xs text-muted-foreground">{today}</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                {getTitle()}
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Clock className="w-3 h-3" />
+          <div className="flex items-center gap-2 text-xs font-mono bg-background/50 px-3 py-1 rounded-full border border-border/50">
+            <Clock className="w-3 h-3 text-primary" />
             <span>{currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}</span>
           </div>
         </div>
       </div>
 
       {/* Legend */}
-      <div className="px-6 py-3 bg-secondary/30 border-b border-border flex items-center gap-4 text-xs">
-        <span className="text-muted-foreground">Impact:</span>
-        <div className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-red-500" />
-          <span className="text-muted-foreground">High</span>
+      <div className="px-6 py-3 bg-secondary/20 border-b border-border flex flex-wrap items-center gap-4 text-xs">
+        <span className="font-medium text-muted-foreground uppercase tracking-wider text-[10px]">Impact:</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-sm bg-red-500 shadow-sm" />
+          <span className="hidden sm:inline text-muted-foreground">High</span>
         </div>
-        <div className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-amber-500" />
-          <span className="text-muted-foreground">Medium</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-sm bg-orange-400 shadow-sm" />
+          <span className="hidden sm:inline text-muted-foreground">Medium</span>
         </div>
-        <div className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-green-500" />
-          <span className="text-muted-foreground">Low</span>
+        <div className="flex items-center gap-1.5">
+          <span className="w-2.5 h-2.5 rounded-sm bg-yellow-400 shadow-sm" />
+          <span className="hidden sm:inline text-muted-foreground">Low</span>
         </div>
       </div>
 
-      {/* News Feed */}
-      <div className="divide-y divide-border max-h-[500px] overflow-y-auto">
-        {news.map((item) => (
-          <div
-            key={item.id}
-            className="px-6 py-4 hover:bg-secondary/20 transition-colors"
-          >
-            <div className="flex items-start gap-4">
-              {/* Time & Impact */}
-              <div className="flex flex-col items-center gap-1 flex-shrink-0 w-16">
-                <span className="text-sm font-medium text-foreground">{item.time}</span>
-                <div className={cn("w-3 h-3 rounded-full", getImpactColor(item.impact))} />
+      {/* News Feed Grouped by Day */}
+      <div className="divide-y divide-border max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-secondary scrollbar-track-transparent">
+        {daysData.length === 0 ? (
+          <div className="p-10 flex flex-col items-center justify-center text-muted-foreground gap-2">
+            <Filter className="w-8 h-8 opacity-20" />
+            <p>No events found for {filterDate === 'today' ? 'today' : 'this period'}.</p>
+            {(currencyFilter !== 'ALL' || impactFilter !== 'all') && (
+              <p className="text-xs opacity-70">Try adjusting your filters.</p>
+            )}
+          </div>
+        ) : (
+          daysData.map((day) => (
+            <div key={day.date} className="bg-background/50">
+              {/* Day Header */}
+              <div className="sticky top-0 z-10 bg-secondary/90 backdrop-blur-sm px-6 py-2 border-y border-border/50 first:border-t-0 shadow-sm">
+                <h4 className="font-semibold text-xs uppercase tracking-wider text-foreground/70 flex items-center gap-2">
+                  <div className="w-1 h-3 bg-primary rounded-full"></div>
+                  {day.date}
+                </h4>
               </div>
 
-              {/* Currency */}
-              <div className="flex items-center gap-2 flex-shrink-0 w-16">
-                <span className="text-lg">{getCurrencyFlag(item.currency)}</span>
-                <span className="font-semibold text-foreground text-sm">{item.currency}</span>
-              </div>
+              {/* Events List */}
+              <div className="divide-y divide-border/30">
+                {day.events.map((item) => (
+                  <div
+                    key={item.id}
+                    className="group px-6 py-3 hover:bg-secondary/20 transition-all duration-200"
+                  >
+                    <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
 
-              {/* Event */}
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-foreground text-sm">{item.event}</p>
-                {item.impact === "high" && (
-                  <div className="flex items-center gap-1 mt-1">
-                    <AlertTriangle className="w-3 h-3 text-amber-500" />
-                    <span className="text-xs text-amber-600">High volatility expected</span>
-                  </div>
-                )}
-              </div>
+                      {/* Time & Impact */}
+                      <div className="flex flex-col items-center gap-1.5 flex-shrink-0 w-14 sm:w-16">
+                        <span className="font-mono text-xs font-medium text-foreground/80">{item.timeLabel}</span>
+                        <div
+                          className={cn("w-8 sm:w-10 h-1 rounded-full", getImpactColor(item.impactName))}
+                          title={getImpactLabel(item.impactName)}
+                        />
+                      </div>
 
-              {/* Data */}
-              <div className="flex gap-4 text-xs flex-shrink-0">
-                {item.actual && (
-                  <div className="text-center">
-                    <div className="text-muted-foreground">Actual</div>
-                    <div className={cn(
-                      "font-semibold",
-                      item.forecast && parseFloat(item.actual) > parseFloat(item.forecast)
-                        ? "text-green-600"
-                        : item.forecast && parseFloat(item.actual) < parseFloat(item.forecast)
-                        ? "text-red-500"
-                        : "text-foreground"
-                    )}>
-                      {item.actual}
+                      {/* Currency */}
+                      <div className="hidden sm:flex flex-col items-center justify-center gap-1 flex-shrink-0 w-10 sm:w-12 bg-secondary/30 rounded-lg py-1.5">
+                        <span className="text-lg leading-none">{getCurrencyFlag(item.currency)}</span>
+                        <span className="text-[9px] font-bold text-muted-foreground">{item.currency}</span>
+                      </div>
+
+                      {/* Event Details */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="sm:hidden text-lg">{getCurrencyFlag(item.currency)}</span>
+                          <p className="font-medium text-foreground text-sm leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                            {item.name}
+                          </p>
+                        </div>
+                        {item.impactName === "high" && (
+                          <div className="inline-flex items-center gap-1 text-[9px] text-red-500/90 font-medium">
+                            <AlertTriangle className="w-3 h-3" />
+                            <span>High Impact</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Data Columns */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-6 text-xs flex-shrink-0 w-auto">
+                        <div className="flex flex-col items-end min-w-[50px]">
+                          <span className="text-[9px] uppercase text-muted-foreground/70 mb-0.5">Actual</span>
+                          <span className={cn(
+                            "font-bold font-mono",
+                            item.actual ? "text-foreground" : "text-muted-foreground/30",
+                          )}>
+                            {item.actual || "-"}
+                          </span>
+                        </div>
+                        <div className="flex flex-col items-end min-w-[50px]">
+                          <span className="text-[9px] uppercase text-muted-foreground/70 mb-0.5">Forecast</span>
+                          <span className="font-medium font-mono text-muted-foreground">{item.forecast || "-"}</span>
+                        </div>
+                        <div className="flex flex-col items-end hidden md:flex min-w-[50px]">
+                          <span className="text-[9px] uppercase text-muted-foreground/70 mb-0.5">Previous</span>
+                          <span className="font-medium font-mono text-muted-foreground">{item.previous || "-"}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                )}
-                {item.forecast && (
-                  <div className="text-center">
-                    <div className="text-muted-foreground">Forecast</div>
-                    <div className="font-medium text-foreground">{item.forecast}</div>
-                  </div>
-                )}
-                {item.previous && (
-                  <div className="text-center">
-                    <div className="text-muted-foreground">Previous</div>
-                    <div className="font-medium text-muted-foreground">{item.previous}</div>
-                  </div>
-                )}
+                ))}
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       {/* Footer */}
-      <div className="bg-secondary/30 px-6 py-3 text-center">
-        <p className="text-sm text-muted-foreground">
-          📊 Data inspired by Forex Factory • For educational purposes
-        </p>
+      <div className="bg-secondary/10 px-6 py-2 border-t border-border flex justify-between items-center text-[10px]">
+        <span className="text-muted-foreground">Source: Forex Factory</span>
+        <span className={cn("flex items-center gap-1.5", daysData.length > 0 ? "text-green-600" : "text-amber-500")}>
+          <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
+          {daysData.length > 0 ? "Live" : "No Data"}
+        </span>
       </div>
     </div>
   );

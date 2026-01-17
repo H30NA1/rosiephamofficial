@@ -63,8 +63,8 @@ const ForexNewsPage = () => {
             </div>
 
             {/* Impact Filter */}
-            <Tabs 
-              value={selectedImpact} 
+            <Tabs
+              value={selectedImpact}
               onValueChange={(v) => setSelectedImpact(v as typeof selectedImpact)}
             >
               <TabsList>
@@ -97,16 +97,37 @@ const ForexNewsPage = () => {
                 <Calendar className="w-5 h-5 text-primary" />
                 <h2 className="font-serif text-2xl font-bold text-foreground">Today's Events</h2>
               </div>
-              <ForexNewsComponent showOnlyUSD={selectedCurrency === "USD"} />
+              <ForexNewsComponent
+                currencyFilter={selectedCurrency}
+                impactFilter={selectedImpact}
+                filterDate="today"
+              />
             </div>
 
-            {/* Upcoming Events */}
-            <div className="mt-12">
+            {/* Upcoming This Week */}
+            <div className="mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <Clock className="w-5 h-5 text-primary" />
                 <h2 className="font-serif text-2xl font-bold text-foreground">Upcoming This Week</h2>
               </div>
-              <ForexNewsComponent showOnlyUSD={false} />
+              <ForexNewsComponent
+                currencyFilter={selectedCurrency}
+                impactFilter={selectedImpact}
+                filterDate="upcoming_week"
+              />
+            </div>
+
+            {/* Upcoming This Month */}
+            <div className="mt-12">
+              <div className="flex items-center gap-3 mb-6">
+                <Calendar className="w-5 h-5 text-primary" />
+                <h2 className="font-serif text-2xl font-bold text-foreground">Upcoming This Month</h2>
+              </div>
+              <ForexNewsComponent
+                currencyFilter={selectedCurrency}
+                impactFilter={selectedImpact}
+                filterDate="upcoming_month"
+              />
             </div>
           </div>
         </div>
@@ -119,7 +140,7 @@ const ForexNewsPage = () => {
             <h2 className="font-serif text-3xl font-bold text-foreground mb-8 text-center">
               How to Use the Economic Calendar
             </h2>
-            
+
             <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-card rounded-xl p-6 shadow-soft">
                 <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
@@ -127,7 +148,7 @@ const ForexNewsPage = () => {
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">High Impact Events</h3>
                 <p className="text-sm text-muted-foreground">
-                  These events can cause significant market volatility. Consider avoiding new positions 
+                  These events can cause significant market volatility. Consider avoiding new positions
                   or tightening stop-losses before these releases.
                 </p>
               </div>
@@ -138,7 +159,7 @@ const ForexNewsPage = () => {
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">Medium Impact Events</h3>
                 <p className="text-sm text-muted-foreground">
-                  These events can cause moderate price movement. Stay alert and monitor your 
+                  These events can cause moderate price movement. Stay alert and monitor your
                   positions when these are released.
                 </p>
               </div>
@@ -149,7 +170,7 @@ const ForexNewsPage = () => {
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">Low Impact Events</h3>
                 <p className="text-sm text-muted-foreground">
-                  These events typically have minimal market impact but can still provide 
+                  These events typically have minimal market impact but can still provide
                   useful context for your trading decisions.
                 </p>
               </div>
