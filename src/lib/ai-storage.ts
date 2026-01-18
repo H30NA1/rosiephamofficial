@@ -2,9 +2,9 @@ import axios from 'axios';
 import { forexData } from '../data/forex-data';
 
 // --- CONFIGURATION ---
-const BASE_URL = 'https://ai.nospace.network';
-const API_KEY = 'Y72P38Y-ZX7MNM4-Q1SCY84-B3SF5DS';
-const TARGET_WORKSPACE = 'ren-workspace';
+const BASE_URL = import.meta.env.VITE_AI_BASE_URL || 'https://ai.nospace.network';
+const API_KEY = import.meta.env.VITE_AI_API_KEY || 'Y72P38Y-ZX7MNM4-Q1SCY84-B3SF5DS';
+const TARGET_WORKSPACE = import.meta.env.VITE_AI_WORKSPACE || 'ren-workspace';
 // System prompt to make the AI act like a "real ChatGPT" (helpful, versatile) while keeping persona
 const SYSTEM_PROMPT = `You are Rosie Pham's intelligent AI Assistant.
 Your core traits:
