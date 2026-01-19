@@ -4,6 +4,7 @@ import ForexNewsComponent from "@/components/ForexNews";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const currencies = [
   { code: "ALL", label: "All Currencies", flag: "🌍" },
@@ -20,6 +21,7 @@ const currencies = [
 const ForexNewsPage = () => {
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [selectedImpact, setSelectedImpact] = useState<"all" | "high" | "medium" | "low">("all");
+  const { t } = useLanguage();
 
   return (
     <Layout>
@@ -30,11 +32,10 @@ const ForexNewsPage = () => {
             <Globe className="w-8 h-8 text-primary" />
           </div>
           <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4 animate-fade-up">
-            Forex Economic Calendar
+            {t.news.title}
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-up">
-            Stay informed with real-time economic events and news that impact currency markets.
-            Track high-impact announcements and plan your trades accordingly.
+            {t.news.subtitle}
           </p>
         </div>
       </section>
@@ -68,18 +69,18 @@ const ForexNewsPage = () => {
               onValueChange={(v) => setSelectedImpact(v as typeof selectedImpact)}
             >
               <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="all">{t.news.filters.all}</TabsTrigger>
                 <TabsTrigger value="high" className="gap-1">
                   <span className="w-2 h-2 rounded-full bg-red-500" />
-                  High
+                  {t.news.filters.high}
                 </TabsTrigger>
                 <TabsTrigger value="medium" className="gap-1">
                   <span className="w-2 h-2 rounded-full bg-amber-500" />
-                  Medium
+                  {t.news.filters.medium}
                 </TabsTrigger>
                 <TabsTrigger value="low" className="gap-1">
                   <span className="w-2 h-2 rounded-full bg-green-500" />
-                  Low
+                  {t.news.filters.low}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -95,7 +96,7 @@ const ForexNewsPage = () => {
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <Calendar className="w-5 h-5 text-primary" />
-                <h2 className="font-serif text-2xl font-bold text-foreground">Today's Events</h2>
+                <h2 className="font-serif text-2xl font-bold text-foreground">{t.news.table.time}</h2>
               </div>
               <ForexNewsComponent
                 currencyFilter={selectedCurrency}
@@ -108,7 +109,7 @@ const ForexNewsPage = () => {
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <Clock className="w-5 h-5 text-primary" />
-                <h2 className="font-serif text-2xl font-bold text-foreground">Upcoming This Week</h2>
+                <h2 className="font-serif text-2xl font-bold text-foreground">{t.news.table.event}</h2>
               </div>
               <ForexNewsComponent
                 currencyFilter={selectedCurrency}
@@ -121,7 +122,7 @@ const ForexNewsPage = () => {
             <div className="mt-12">
               <div className="flex items-center gap-3 mb-6">
                 <Calendar className="w-5 h-5 text-primary" />
-                <h2 className="font-serif text-2xl font-bold text-foreground">Upcoming This Month</h2>
+                <h2 className="font-serif text-2xl font-bold text-foreground">{t.news.table.forecast}</h2>
               </div>
               <ForexNewsComponent
                 currencyFilter={selectedCurrency}
@@ -138,7 +139,7 @@ const ForexNewsPage = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="font-serif text-3xl font-bold text-foreground mb-8 text-center">
-              How to Use the Economic Calendar
+              {t.news.subtitle}
             </h2>
 
             <div className="grid md:grid-cols-3 gap-6">
@@ -146,10 +147,9 @@ const ForexNewsPage = () => {
                 <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
                   <span className="w-4 h-4 rounded-full bg-red-500" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">High Impact Events</h3>
+                <h3 className="font-semibold text-foreground mb-2">{t.news.filters.high}</h3>
                 <p className="text-sm text-muted-foreground">
-                  These events can cause significant market volatility. Consider avoiding new positions
-                  or tightening stop-losses before these releases.
+                  {t.news.table.impact}
                 </p>
               </div>
 
@@ -157,10 +157,9 @@ const ForexNewsPage = () => {
                 <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center mb-4">
                   <span className="w-4 h-4 rounded-full bg-amber-500" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Medium Impact Events</h3>
+                <h3 className="font-semibold text-foreground mb-2">{t.news.filters.medium}</h3>
                 <p className="text-sm text-muted-foreground">
-                  These events can cause moderate price movement. Stay alert and monitor your
-                  positions when these are released.
+                  {t.news.table.impact}
                 </p>
               </div>
 
@@ -168,10 +167,9 @@ const ForexNewsPage = () => {
                 <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center mb-4">
                   <span className="w-4 h-4 rounded-full bg-green-500" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Low Impact Events</h3>
+                <h3 className="font-semibold text-foreground mb-2">{t.news.filters.low}</h3>
                 <p className="text-sm text-muted-foreground">
-                  These events typically have minimal market impact but can still provide
-                  useful context for your trading decisions.
+                  {t.news.table.impact}
                 </p>
               </div>
             </div>

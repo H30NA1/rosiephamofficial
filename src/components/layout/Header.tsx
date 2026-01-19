@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, TrendingUp } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Trading Charts", path: "/charts" },
-    { name: "Forex News", path: "/news" },
-    { name: "Contact", path: "/contact" },
+    { name: t.common.nav.home, path: "/" },
+    { name: t.common.nav.about, path: "/about" },
+    { name: t.common.nav.charts, path: "/charts" },
+    { name: t.common.nav.news, path: "/news" },
+    { name: t.common.nav.contact, path: "/contact" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -50,20 +53,24 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* Right Side Actions */}
+          <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher />
             <Button asChild className="shadow-soft hover:shadow-card transition-shadow">
-              <Link to="/contact">Start Trading Now</Link>
+              <Link to="/contact">{t.common.cta.getStarted}</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-foreground"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <LanguageSwitcher />
+            <button
+              className="p-2 text-foreground"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -86,7 +93,7 @@ const Header = () => {
               <div className="px-4 pt-2">
                 <Button asChild className="w-full">
                   <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
-                    Start Trading Now
+                    {t.common.cta.getStarted}
                   </Link>
                 </Button>
               </div>

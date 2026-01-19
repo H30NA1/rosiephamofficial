@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
-import { TrendingUp, Phone, ExternalLink, Instagram, Facebook, Twitter } from "lucide-react";
+import { Phone, ExternalLink, Instagram, Facebook, Twitter } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-foreground text-primary-foreground py-16">
       <div className="container mx-auto px-4">
@@ -17,20 +20,19 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-primary-foreground/70 max-w-sm leading-relaxed">
-              Empowering your financial future with expert trading strategies.
-              Join us on a journey to sustainable wealth building.
+              {t.home.hero.description}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-serif text-lg font-semibold mb-4">Quick Links</h4>
+            <h4 className="font-serif text-lg font-semibold mb-4">{t.common.footer.quickLinks}</h4>
             <ul className="space-y-3">
               {[
-                { name: "Home", path: "/" },
-                { name: "About", path: "/about" },
-                { name: "Trading Charts", path: "/charts" },
-                { name: "Contact", path: "/contact" },
+                { name: t.common.nav.home, path: "/" },
+                { name: t.common.nav.about, path: "/about" },
+                { name: t.common.nav.charts, path: "/charts" },
+                { name: t.common.nav.contact, path: "/contact" },
               ].map((link) => (
                 <li key={link.path}>
                   <Link
@@ -46,7 +48,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-serif text-lg font-semibold mb-4">Contact</h4>
+            <h4 className="font-serif text-lg font-semibold mb-4">{t.common.footer.contact}</h4>
             <ul className="space-y-3">
               <li>
                 <a
@@ -72,6 +74,9 @@ const Footer = () => {
 
             {/* Social Icons */}
             <div className="flex gap-4 mt-6">
+              <p className="text-primary-foreground/70 text-sm mb-2 w-full">{t.common.footer.followUs}</p>
+            </div>
+            <div className="flex gap-4">
               <a
                 href="https://linktr.ee/official_rosie_pham_96"
                 target="_blank"
@@ -102,7 +107,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-primary-foreground/10 text-center text-primary-foreground/50 text-sm">
-          <p>© {new Date().getFullYear()} Rosie Phạm Trading. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Rosie Phạm Trading. {t.common.footer.rights}</p>
         </div>
       </div>
     </footer>
