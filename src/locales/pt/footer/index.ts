@@ -1,0 +1,8 @@
+export const footer = {
+    rights: 'Todos os direitos reservados',
+    privacy: 'Política de Privacidade',
+    terms: 'Termos de Serviço',
+    followUs: 'Siga-nos',
+    quickLinks: 'Links Rápidos',
+    contact: 'Contato',
+};

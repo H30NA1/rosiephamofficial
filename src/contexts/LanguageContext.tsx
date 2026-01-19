@@ -31,11 +31,11 @@ function setCookie(name: string, value: string, days: number): void {
 }
 
 function detectBrowserLanguage(): SupportedLanguage {
-  if (typeof navigator === 'undefined') return 'en';
-  
+  if (typeof navigator === 'undefined') return 'vi';
+
   const browserLang = navigator.language || (navigator as any).userLanguage;
   const langCode = browserLang?.split('-')[0]?.toLowerCase();
-  
+
   const languageMap: Record<string, SupportedLanguage> = {
     en: 'en',
     vi: 'vi',
@@ -69,21 +69,21 @@ function detectBrowserLanguage(): SupportedLanguage {
     lo: 'lo',
   };
 
-  return languageMap[langCode] || 'en';
+  return languageMap[langCode] || 'vi';
 }
 
 function getInitialLanguage(): SupportedLanguage {
   // First check cookie
   const cookieLang = getCookie(LANGUAGE_COOKIE_KEY) as SupportedLanguage | null;
   if (cookieLang) return cookieLang;
-  
+
   // Then check localStorage as fallback
   if (typeof localStorage !== 'undefined') {
     const storedLang = localStorage.getItem(LANGUAGE_COOKIE_KEY) as SupportedLanguage | null;
     if (storedLang) return storedLang;
   }
-  
-  // Finally detect from browser
+
+  // Finally detect from browser, defaults to Vietnamese
   return detectBrowserLanguage();
 }
 
@@ -95,18 +95,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const setLanguage = useCallback(async (lang: SupportedLanguage) => {
     setIsLoading(true);
     setLanguageState(lang);
-    
+
     // Persist to cookie and localStorage
     setCookie(LANGUAGE_COOKIE_KEY, lang, COOKIE_EXPIRY_DAYS);
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(LANGUAGE_COOKIE_KEY, lang);
     }
-    
+
     // Update HTML lang attribute for SEO
     if (typeof document !== 'undefined') {
       document.documentElement.lang = lang;
     }
-    
+
     try {
       const newTranslations = await getTranslations(lang);
       setTranslations(newTranslations);
@@ -125,7 +125,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       if (typeof document !== 'undefined') {
         document.documentElement.lang = initialLang;
       }
-      
+
       try {
         const initialTranslations = await getTranslations(initialLang);
         setTranslations(initialTranslations);
@@ -133,7 +133,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         console.error('Failed to load initial translations:', error);
       }
     };
-    
+
     loadInitialTranslations();
   }, []);
 

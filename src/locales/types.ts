@@ -110,6 +110,25 @@ export interface NewsTranslations {
     previous: string;
   };
   noNews: string;
+  calendar: string;
+  economicCalendar: string;
+  eventsToday: string;
+  upcomingWeek: string;
+  upcomingMonth: string;
+  upcomingEvents: string;
+  impactLabel: string;
+  highImpact: string;
+  mediumImpact: string;
+  lowImpact: string;
+  holiday: string;
+  nonEconomic: string;
+  noEventsFound: string;
+  noEventsToday: string;
+  noEventsPeriod: string;
+  adjustFilters: string;
+  source: string;
+  live: string;
+  noData: string;
 }
 
 export interface ContactTranslations {
@@ -142,7 +161,7 @@ export interface Translations {
   contact: ContactTranslations;
 }
 
-export type SupportedLanguage = 
+export type SupportedLanguage =
   | 'en' | 'zh-CN' | 'zh-TW' | 'es' | 'ar' | 'hi' | 'pt' | 'bn' | 'ru' | 'ja'
   | 'de' | 'fr' | 'ko' | 'tr' | 'it' | 'pl' | 'uk' | 'nl' | 'ro' | 'el'
   | 'cs' | 'sv' | 'hu' | 'th' | 'vi' | 'id' | 'ms' | 'fil' | 'my' | 'km' | 'lo';

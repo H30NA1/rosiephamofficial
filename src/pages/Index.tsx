@@ -17,7 +17,7 @@ const chartSymbols = {
 const Index = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeMarket, setActiveMarket] = useState<keyof typeof chartSymbols>("forex");
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     if (containerRef.current) {
@@ -35,7 +35,7 @@ const Index = () => {
         timezone: "Etc/UTC",
         theme: "light",
         style: "1",
-        locale: "en",
+        locale: language,
         enable_publishing: false,
         allow_symbol_change: true,
         calendar: false,
@@ -51,7 +51,7 @@ const Index = () => {
 
       containerRef.current.appendChild(script);
     }
-  }, [activeMarket]);
+  }, [activeMarket, language]);
 
   return (
     <Layout>

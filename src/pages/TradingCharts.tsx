@@ -13,7 +13,7 @@ const chartSymbols = {
 const TradingCharts = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeMarket, setActiveMarket] = useState<keyof typeof chartSymbols>("forex");
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     if (containerRef.current) {
@@ -31,7 +31,7 @@ const TradingCharts = () => {
         timezone: "Etc/UTC",
         theme: "light",
         style: "1",
-        locale: "en",
+        locale: language,
         enable_publishing: false,
         allow_symbol_change: true,
         calendar: false,
@@ -47,7 +47,7 @@ const TradingCharts = () => {
 
       containerRef.current.appendChild(script);
     }
-  }, [activeMarket]);
+  }, [activeMarket, language]);
 
   return (
     <Layout>
