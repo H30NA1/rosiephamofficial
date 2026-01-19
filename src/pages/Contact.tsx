@@ -6,9 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Layout from "@/components/layout/Layout";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Contact = () => {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -39,14 +41,14 @@ const Contact = () => {
 
       setIsSubmitted(true);
       toast({
-        title: "Message Sent!",
-        description: "Thank you for reaching out. Rosie will get back to you soon.",
+        title: t.contact.success,
+        description: t.contact.success,
       });
       setFormData({ name: "", email: "", phone: "", message: "" });
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Something went wrong. Please try again.",
+        description: error instanceof Error ? error.message : t.contact.error,
         variant: "destructive",
       });
     } finally {
@@ -69,11 +71,10 @@ const Contact = () => {
       <section className="py-16 md:py-24 bg-hero-gradient">
         <div className="container mx-auto px-4 text-center">
           <h1 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4 animate-fade-up">
-            Get in Touch
+            {t.contact.title}
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-up">
-            Ready to start your trading journey? Reach out for personalized
-            trading consultation and expert guidance.
+            {t.contact.subtitle}
           </p>
         </div>
       </section>
@@ -85,12 +86,10 @@ const Contact = () => {
             {/* Contact Info */}
             <div>
               <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6">
-                Let's Connect
+                {t.contact.info.title}
               </h2>
               <p className="text-muted-foreground mb-8 leading-relaxed">
-                Whether you're new to trading or looking to enhance your skills,
-                I'm here to help. Get in touch today and let's discuss how we
-                can work together towards your financial goals.
+                {t.contact.subtitle}
               </p>
 
               <div className="space-y-6">
@@ -102,7 +101,7 @@ const Contact = () => {
                     <Phone className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
                   <div>
-                    <div className="font-medium text-foreground">Phone</div>
+                    <div className="font-medium text-foreground">{t.contact.info.phone}</div>
                     <div className="text-muted-foreground">+84 037 789 5316</div>
                   </div>
                 </a>
@@ -117,7 +116,7 @@ const Contact = () => {
                     <ExternalLink className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
                   <div>
-                    <div className="font-medium text-foreground">Linktree</div>
+                    <div className="font-medium text-foreground">{t.contact.info.email}</div>
                     <div className="text-muted-foreground">@official_rosie_pham_96</div>
                   </div>
                 </a>
@@ -127,7 +126,7 @@ const Contact = () => {
                     <MapPin className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <div className="font-medium text-foreground">Location</div>
+                    <div className="font-medium text-foreground">{t.contact.info.location}</div>
                     <div className="text-muted-foreground">Vietnam</div>
                   </div>
                 </div>
@@ -142,10 +141,10 @@ const Contact = () => {
                     <CheckCircle className="w-8 h-8 text-primary" />
                   </div>
                   <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
-                    Message Sent!
+                    {t.contact.success}
                   </h3>
                   <p className="text-muted-foreground mb-6">
-                    Thank you for reaching out. Rosie will get back to you as soon as possible.
+                    {t.contact.success}
                   </p>
                   <Button
                     variant="outline"
@@ -154,17 +153,17 @@ const Contact = () => {
                       setFormData({ name: "", email: "", phone: "", message: "" });
                     }}
                   >
-                    Send Another Message
+                    {t.contact.form.submit}
                   </Button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor="name">{t.contact.form.name}</Label>
                     <Input
                       id="name"
                       name="name"
-                      placeholder="Your full name"
+                      placeholder={t.contact.form.name}
                       value={formData.name}
                       onChange={handleChange}
                       required
@@ -172,7 +171,7 @@ const Contact = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{t.contact.form.email}</Label>
                     <Input
                       id="email"
                       name="email"
@@ -185,7 +184,7 @@ const Contact = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number (Optional)</Label>
+                    <Label htmlFor="phone">{t.contact.info.phone}</Label>
                     <Input
                       id="phone"
                       name="phone"
@@ -197,11 +196,11 @@ const Contact = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
+                    <Label htmlFor="message">{t.contact.form.message}</Label>
                     <Textarea
                       id="message"
                       name="message"
-                      placeholder="Tell us about your trading goals..."
+                      placeholder={t.contact.form.message}
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
@@ -215,10 +214,10 @@ const Contact = () => {
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
-                      "Sending..."
+                      t.contact.form.sending
                     ) : (
                       <>
-                        Send Message
+                        {t.contact.form.submit}
                         <Send className="ml-2 w-4 h-4" />
                       </>
                     )}

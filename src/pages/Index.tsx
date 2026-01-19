@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, TrendingUp, Shield, BarChart3, Users, LineChart, CandlestickChart, Newspaper, MessageCircle } from "lucide-react";
+import { ArrowRight, TrendingUp, BarChart3, LineChart, CandlestickChart, Newspaper, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/layout/Layout";
 import ZaloGroupFeed from "@/components/ZaloGroupFeed";
@@ -7,33 +7,17 @@ import ForexNews from "@/components/ForexNews";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useEffect, useRef, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const chartSymbols = {
   forex: "OANDA:XAUUSD",
   crypto: "BINANCE:BTCUSDT",
 };
 
-const services = [
-  {
-    icon: BarChart3,
-    title: "King Ichi",
-    description: "Chỉ báo chuyên sâu: Buy/Sell, xu hướng, và các vùng hỗ trợ – kháng cực cực kỳ chính xác.",
-  },
-  {
-    icon: LineChart,
-    title: "RSI Pro",
-    description: "Nhận diện vùng quá mua – quá bán và các tín hiệu phân kỳ độc quyền.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Breakout & Wave Pro",
-    description: "Xác định điểm vào E1–E2 rõ ràng và cảnh báo đảo chiều để tránh FOMO.",
-  },
-];
-
 const Index = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeMarket, setActiveMarket] = useState<keyof typeof chartSymbols>("forex");
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (containerRef.current) {
@@ -83,28 +67,27 @@ const Index = () => {
           <div className="max-w-2xl animate-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
               <TrendingUp className="w-4 h-4" />
-              <span className="text-sm font-medium">Trusted Forex & Crypto Trading Platform</span>
+              <span className="text-sm font-medium">{t.home.hero.subtitle}</span>
             </div>
 
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Welcome to Trading with{" "}
+              {t.home.hero.title.split('Rosie Phạm')[0]}
               <span className="text-gradient">Rosie Phạm</span>
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
-              Empowering your financial future with expert Forex and Crypto trading strategies.
-              Experience real-time trading results and a calm, professional approach to building sustainable wealth.
+              {t.home.hero.description}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" asChild className="shadow-soft hover:shadow-card transition-all">
                 <Link to="/contact">
-                  Start Your Journey
+                  {t.common.cta.getStarted}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="#live-trades">See Live Updates</a>
+                <a href="#live-trades">{t.common.cta.learnMore}</a>
               </Button>
             </div>
           </div>
@@ -113,9 +96,9 @@ const Index = () => {
         {/* Floating Stats */}
         <div className="absolute bottom-8 right-8 hidden lg:flex gap-6">
           {[
-            { value: "5+", label: "Years Experience" },
-            { value: "Forex", label: "& Crypto Expert" },
-            { value: "24/7", label: "Market Analysis" },
+            { value: "5+", label: t.home.hero.stats.experience },
+            { value: "Forex", label: t.home.hero.stats.expert },
+            { value: "24/7", label: t.home.hero.stats.analysis },
           ].map((stat, index) => (
             <div
               key={index}
@@ -135,14 +118,13 @@ const Index = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 mb-4">
               <MessageCircle className="w-4 h-4" />
-              <span className="text-sm font-medium">Join our VIP Community</span>
+              <span className="text-sm font-medium">{t.home.community.title}</span>
             </div>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Real-Time Signal Group
+              {t.home.liveTrade.title}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Stay connected with our exclusive Zalo community. Get instant entry points,
-              live results, and professional trade feedback directly from Rosie Phạm.
+              {t.home.liveTrade.subtitle}
             </p>
           </div>
 
@@ -157,11 +139,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Hệ Thống Giao Dịch KingIchi
+              {t.home.charts.title}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Sử dụng bộ công cụ 5 chỉ báo chuyên sâu giúp tối ưu hóa điểm vùng vào lệnh:
-              King Ichi (Xu hướng), RSI Pro (Phân kỳ), Breakout (E1-E2), Wave Pro & Vol Pro.
+              {t.home.charts.subtitle}
             </p>
           </div>
 
@@ -175,11 +156,11 @@ const Index = () => {
               <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
                 <TabsTrigger value="forex" className="gap-2">
                   <LineChart className="w-4 h-4" />
-                  Forex Trading
+                  {t.home.charts.forex}
                 </TabsTrigger>
                 <TabsTrigger value="crypto" className="gap-2">
                   <CandlestickChart className="w-4 h-4" />
-                  Crypto Trading
+                  {t.home.charts.crypto}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -195,7 +176,7 @@ const Index = () => {
             <div className="text-center mt-6">
               <Button variant="outline" size="lg" asChild>
                 <Link to="/charts">
-                  View Full Charts Page
+                  {t.common.cta.viewCharts}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
@@ -210,14 +191,13 @@ const Index = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-4">
               <Newspaper className="w-4 h-4" />
-              <span className="text-sm font-medium">Economic Calendar</span>
+              <span className="text-sm font-medium">{t.home.news.subtitle}</span>
             </div>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              USD Economic News
+              {t.home.news.title}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Stay informed with high-impact economic events that move the US Dollar.
-              Plan your trades around key announcements for better results.
+              {t.charts.description}
             </p>
           </div>
 
@@ -227,7 +207,7 @@ const Index = () => {
             <div className="text-center mt-6">
               <Button variant="outline" size="lg" asChild>
                 <Link to="/news">
-                  View Full Economic Calendar
+                  {t.home.news.viewAll}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Button>
@@ -241,16 +221,19 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Forex & Crypto Trading Services
+              {t.home.features.title}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive Forex and Crypto trading solutions designed to help you achieve your financial goals
-              with confidence and peace of mind.
+              {t.home.features.subtitle}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
+            {[
+              { icon: BarChart3, ...t.home.features.items.signals },
+              { icon: LineChart, ...t.home.features.items.analysis },
+              { icon: TrendingUp, ...t.home.features.items.support },
+            ].map((service, index) => (
               <div
                 key={index}
                 className="group bg-card-gradient rounded-2xl p-8 shadow-card hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
@@ -276,11 +259,10 @@ const Index = () => {
       <section className="py-20 md:py-28 bg-primary">
         <div className="container mx-auto px-4 text-center">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
-            Ready to Start Your Trading Journey?
+            {t.home.community.title}
           </h2>
           <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-            Join a disciplined community of aspiring traders and build sustainable wealth
-            with 5+ years of expert guidance, real-time signals, and proven strategies.
+            {t.home.community.description}
           </p>
           <Button
             size="lg"
@@ -289,7 +271,7 @@ const Index = () => {
             className="shadow-elevated hover:scale-105 transition-transform"
           >
             <Link to="/contact">
-              Get in Touch Today
+              {t.common.cta.contactUs}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </Button>
