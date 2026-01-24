@@ -11,13 +11,10 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
-                <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-cover" />
+            <Link to="/" className="flex items-center gap-3 mb-4">
+              <div className="w-16 h-16 flex items-center justify-center">
+                <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="font-serif text-xl font-semibold">
-                Rosie Phạm
-              </span>
             </Link>
             <p className="text-primary-foreground/70 max-w-sm leading-relaxed">
               {t.home.hero.description}

@@ -25,13 +25,10 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shadow-soft group-hover:scale-105 transition-transform">
-              <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-cover" />
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-12 h-12 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="font-serif text-xl font-semibold text-foreground">
-              Rosie Phạm
-            </span>
           </Link>
 
           {/* Desktop Navigation */}
