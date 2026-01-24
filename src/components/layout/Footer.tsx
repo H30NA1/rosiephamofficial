@@ -6,25 +6,25 @@ const Footer = () => {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-foreground text-primary-foreground py-16">
+    <footer className="bg-foreground text-background py-20">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
+        <div className="grid md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-3 mb-4">
-              <div className="w-16 h-16 flex items-center justify-center">
-                <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-contain" />
+            <Link to="/" className="flex items-center gap-3 mb-6">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img src="/logo.jpg" alt="Rosie Phạm Logo" className="w-full h-full object-contain brightness-[10]" />
               </div>
             </Link>
-            <p className="text-primary-foreground/70 max-w-sm leading-relaxed">
+            <p className="text-background/60 max-w-sm leading-relaxed text-sm">
               {t.home.hero.description}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-serif text-lg font-semibold mb-4">{t.common.footer.quickLinks}</h4>
-            <ul className="space-y-3">
+            <h4 className="font-serif text-lg font-medium mb-6 text-background">{t.common.footer.quickLinks}</h4>
+            <ul className="space-y-4">
               {[
                 { name: t.common.nav.home, path: "/" },
                 { name: t.common.nav.about, path: "/about" },
@@ -34,7 +34,7 @@ const Footer = () => {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-primary-foreground/70 hover:text-primary transition-colors"
+                    className="text-background/60 hover:text-accent transition-colors text-sm tracking-wide"
                   >
                     {link.name}
                   </Link>
@@ -45,12 +45,12 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-serif text-lg font-semibold mb-4">{t.common.footer.contact}</h4>
-            <ul className="space-y-3">
+            <h4 className="font-serif text-lg font-medium mb-6 text-background">{t.common.footer.contact}</h4>
+            <ul className="space-y-4">
               <li>
                 <a
                   href="tel:+840377895316"
-                  className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-background/60 hover:text-accent transition-colors text-sm"
                 >
                   <Phone className="w-4 h-4" />
                   +84 037 789 5316
@@ -61,7 +61,7 @@ const Footer = () => {
                   href="https://linktr.ee/official_rosie_pham_96"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-background/60 hover:text-accent transition-colors text-sm"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Linktree
@@ -70,41 +70,41 @@ const Footer = () => {
             </ul>
 
             {/* Social Icons */}
-            <div className="flex gap-4 mt-6">
-              <p className="text-primary-foreground/70 text-sm mb-2 w-full">{t.common.footer.followUs}</p>
-            </div>
-            <div className="flex gap-4">
-              <a
-                href="https://linktr.ee/official_rosie_pham_96"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="https://linktr.ee/official_rosie_pham_96"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a
-                href="https://linktr.ee/official_rosie_pham_96"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors"
-              >
-                <Twitter className="w-5 h-5" />
-              </a>
+            <div className="mt-8">
+              <p className="text-background/50 text-xs uppercase tracking-widest mb-4">{t.common.footer.followUs}</p>
+              <div className="flex gap-3">
+                <a
+                  href="https://linktr.ee/official_rosie_pham_96"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 border border-background/20 flex items-center justify-center hover:border-accent hover:text-accent transition-colors"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://linktr.ee/official_rosie_pham_96"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 border border-background/20 flex items-center justify-center hover:border-accent hover:text-accent transition-colors"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://linktr.ee/official_rosie_pham_96"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 border border-background/20 flex items-center justify-center hover:border-accent hover:text-accent transition-colors"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-primary-foreground/10 text-center text-primary-foreground/50 text-sm">
-          <p>© {new Date().getFullYear()} Rosie Phạm Trading. {t.common.footer.rights}</p>
+        <div className="pt-10 border-t border-background/10 text-center text-background/40 text-xs tracking-widest uppercase">
+          <p>© {new Date().getFullYear()} Rosie Phạm. {t.common.footer.rights}</p>
         </div>
       </div>
     </footer>

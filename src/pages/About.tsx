@@ -49,7 +49,7 @@ const About = () => {
                   className="w-full aspect-[3/4] rounded-3xl"
                 >
                   {creatorImages.map((img, index) => (
-                    <SwiperSlide key={index} className="rounded-3xl shadow-2xl overflow-hidden border-4 border-white bg-card">
+                    <SwiperSlide key={index} className="overflow-hidden border border-border/30 bg-card shadow-soft">
                       <img
                         src={img.src}
                         alt={img.alt}
@@ -81,16 +81,16 @@ const About = () => {
             </div>
 
             <div className="relative">
-              <div className="bg-card p-10 rounded-[2.5rem] shadow-elevated border border-border/50 relative z-10">
-                <blockquote className="text-xl md:text-2xl text-foreground italic leading-tight mb-8 font-serif">
+              <div className="bg-card p-10 md:p-14 shadow-soft border border-border/30 relative z-10">
+                <blockquote className="text-xl md:text-2xl text-foreground italic leading-relaxed mb-8 font-serif">
                   "Kỷ luật là chìa khóa của sự tự do tài chính. Tại Rosie Phạm Trading, chúng tôi không chỉ giao dịch, chúng tôi xây dựng một tư duy thị trường đẳng cấp."
                 </blockquote>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-1 px-1 bg-primary rounded-full" />
-                  <span className="font-bold text-foreground uppercase tracking-widest text-xs">Rosie Phạm</span>
+                  <div className="w-12 h-px bg-accent" />
+                  <span className="font-medium text-foreground uppercase tracking-widest text-xs">Rosie Phạm</span>
                 </div>
               </div>
-              <div className="absolute -inset-4 bg-primary/5 rounded-[3rem] -rotate-2 -z-0" />
+              <div className="absolute -inset-4 bg-accent/5 -rotate-1 -z-0" />
             </div>
           </div>
         </div>
@@ -112,12 +112,12 @@ const About = () => {
               return (
                 <div
                   key={index}
-                  className="bg-card rounded-3xl p-8 shadow-card text-center hover:shadow-elevated transition-all duration-500 border border-border/50 group"
+                  className="bg-card p-10 shadow-soft text-center hover:shadow-card transition-all duration-500 border border-border/30 group"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-primary/5 flex items-center justify-center mx-auto mb-8 group-hover:bg-primary/10 group-hover:-translate-y-2 transition-all">
-                    <Icon className="w-10 h-10 text-primary" />
+                  <div className="w-16 h-16 flex items-center justify-center mx-auto mb-8 border border-accent/30 group-hover:border-accent group-hover:bg-accent/5 transition-all">
+                    <Icon className="w-7 h-7 text-accent" />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold text-foreground mb-4">
+                  <h3 className="font-serif text-2xl font-medium text-foreground mb-4">
                     {value.title}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed">
@@ -131,21 +131,21 @@ const About = () => {
       </section>
 
       {/* Final SEO CTA Section */}
-      <section className="py-20 md:py-28">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-4 text-center">
-          <div className="max-w-5xl mx-auto bg-slate-900 text-white rounded-[3rem] p-10 md:p-20 shadow-2xl relative overflow-hidden text-center">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-[100px] -mr-40 -mt-40" />
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-8 relative z-10 tracking-tight">
+          <div className="max-w-4xl mx-auto bg-foreground text-background p-12 md:p-20 shadow-elevated relative overflow-hidden text-center">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-accent/10 blur-[100px] -mr-40 -mt-40" />
+            <h2 className="font-serif text-3xl md:text-5xl font-medium mb-8 relative z-10 tracking-wide">
               {t.home.community.title}
             </h2>
-            <p className="text-lg md:text-xl opacity-80 mb-12 relative z-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl opacity-70 mb-12 relative z-10 max-w-2xl mx-auto leading-relaxed">
               {t.home.community.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center relative z-10">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-bold h-14 px-10 rounded-2xl text-lg shadow-lg" asChild>
+              <Button size="lg" variant="outline" className="border-background/30 text-background hover:bg-background hover:text-foreground" asChild>
                 <Link to="/contact">{t.common.cta.contactUs}</Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="border-white/20 bg-white/5 hover:bg-white/10 text-white h-14 px-10 rounded-2xl text-lg backdrop-blur-sm transition-all">
+              <Button size="lg" variant="outline" asChild className="border-background/30 text-background hover:bg-background hover:text-foreground">
                 <a href="https://zalo.me/g/sxkwkm310" target="_blank" rel="noopener noreferrer">{t.common.cta.joinNow}</a>
               </Button>
             </div>

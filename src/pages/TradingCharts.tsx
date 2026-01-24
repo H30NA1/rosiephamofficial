@@ -85,7 +85,7 @@ const TradingCharts = () => {
             </Tabs>
 
             {/* TradingView Widget - Bigger and More Interactive */}
-            <div className="bg-card rounded-2xl shadow-elevated overflow-hidden" style={{ height: "800px" }}>
+            <div className="bg-card shadow-soft border border-border/30 overflow-hidden" style={{ height: "800px" }}>
               <div
                 ref={containerRef}
                 className="tradingview-widget-container w-full h-full"
@@ -96,12 +96,12 @@ const TradingCharts = () => {
       </section>
 
       {/* Educational Section */}
-      <section className="py-20 md:py-28 bg-secondary/30">
+      <section className="py-24 md:py-32 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent mb-4">
               <BookOpen className="w-4 h-4" />
-              <span className="text-sm font-medium">{t.home.features.items.education.title}</span>
+              <span className="text-xs tracking-widest uppercase font-medium">{t.home.features.items.education.title}</span>
             </div>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
               {t.charts.description}
