@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,94 +6,103 @@
 
 @layer base {
   :root {
-    --background: 45 20% 97%;
-    --foreground: 200 25% 15%;
+    /* Luxury Beauty Theme - Light Mode */
+    --background: 24 38% 97%;
+    --foreground: 0 0% 8%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 200 25% 15%;
+    --card: 27 30% 98%;
+    --card-foreground: 0 0% 8%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 200 25% 15%;
+    --popover: 27 30% 98%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 174 42% 40%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 8%;
+    --primary-foreground: 27 30% 97%;
 
-    --secondary: 150 25% 92%;
-    --secondary-foreground: 174 42% 30%;
+    --secondary: 24 30% 94%;
+    --secondary-foreground: 0 0% 8%;
 
-    --muted: 45 15% 92%;
-    --muted-foreground: 200 15% 45%;
+    --muted: 24 20% 92%;
+    --muted-foreground: 0 0% 35%;
 
-    --accent: 43 85% 55%;
-    --accent-foreground: 200 25% 15%;
+    --accent: 20 35% 66%;
+    --accent-foreground: 0 0% 8%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 174 20% 85%;
-    --input: 174 20% 85%;
-    --ring: 174 42% 40%;
+    --border: 24 20% 88%;
+    --input: 24 20% 88%;
+    --ring: 20 35% 66%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(174 42% 40% / 0.1) 0%, hsl(150 25% 92%) 50%, hsl(45 20% 97%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(150 25% 98%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(43 85% 55%) 0%, hsl(38 90% 60%) 100%);
-    --shadow-soft: 0 4px 20px -4px hsl(174 42% 40% / 0.15);
-    --shadow-card: 0 8px 30px -8px hsl(200 25% 15% / 0.1);
-    --shadow-elevated: 0 20px 50px -15px hsl(200 25% 15% / 0.15);
+    /* Custom luxury tokens */
+    --rose-gold: 20 35% 66%;
+    --rose-gold-light: 15 38% 74%;
+    --champagne: 18 30% 70%;
+    --charcoal: 0 0% 20%;
+    --ivory: 27 30% 95%;
+    --soft-black: 0 0% 8%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --gradient-hero: linear-gradient(135deg, hsl(24 38% 97%) 0%, hsl(27 30% 95%) 50%, hsl(20 35% 66% / 0.05) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(27 30% 98%) 0%, hsl(24 30% 96%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(20 35% 66%) 0%, hsl(15 38% 74%) 100%);
+    --shadow-soft: 0 4px 20px -4px hsl(0 0% 8% / 0.06);
+    --shadow-card: 0 8px 30px -8px hsl(0 0% 8% / 0.08);
+    --shadow-elevated: 0 20px 50px -15px hsl(0 0% 8% / 0.1);
+
+    --sidebar-background: 27 30% 98%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 0 0% 8%;
+    --sidebar-primary-foreground: 27 30% 97%;
+    --sidebar-accent: 24 30% 94%;
+    --sidebar-accent-foreground: 0 0% 8%;
+    --sidebar-border: 24 20% 88%;
+    --sidebar-ring: 20 35% 66%;
   }
 
   .dark {
-    --background: 200 25% 10%;
-    --foreground: 45 20% 95%;
+    /* Luxury Beauty Theme - Dark Mode */
+    --background: 0 0% 6%;
+    --foreground: 27 30% 95%;
 
-    --card: 200 25% 12%;
-    --card-foreground: 45 20% 95%;
+    --card: 0 0% 9%;
+    --card-foreground: 27 30% 95%;
 
-    --popover: 200 25% 12%;
-    --popover-foreground: 45 20% 95%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 27 30% 95%;
 
-    --primary: 174 50% 50%;
-    --primary-foreground: 200 25% 10%;
+    --primary: 20 35% 66%;
+    --primary-foreground: 0 0% 6%;
 
-    --secondary: 200 20% 18%;
-    --secondary-foreground: 174 50% 60%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 20 35% 70%;
 
-    --muted: 200 20% 18%;
-    --muted-foreground: 200 15% 60%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 55%;
 
-    --accent: 43 85% 55%;
-    --accent-foreground: 200 25% 10%;
+    --accent: 20 35% 66%;
+    --accent-foreground: 0 0% 6%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 200 20% 20%;
-    --input: 200 20% 20%;
-    --ring: 174 50% 50%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 20 35% 66%;
 
-    --gradient-hero: linear-gradient(135deg, hsl(174 50% 50% / 0.1) 0%, hsl(200 25% 12%) 50%, hsl(200 25% 10%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(200 25% 14%) 0%, hsl(200 25% 12%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 6%) 0%, hsl(0 0% 9%) 50%, hsl(20 35% 66% / 0.08) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 10%) 0%, hsl(0 0% 8%) 100%);
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 27 30% 95%;
+    --sidebar-primary: 20 35% 66%;
+    --sidebar-primary-foreground: 0 0% 6%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 27 30% 95%;
+    --sidebar-border: 0 0% 16%;
+    --sidebar-ring: 20 35% 66%;
   }
 }
 
@@ -104,12 +113,19 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.7;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    @apply font-semibold tracking-tight;
+    font-family: 'Cormorant Garamond', serif;
+    @apply font-semibold;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    color: hsl(var(--charcoal));
+    line-height: 1.75;
   }
 }
 

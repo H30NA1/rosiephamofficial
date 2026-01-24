@@ -65,7 +65,7 @@ const Index = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl animate-fade-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-accent/10 text-accent mb-6">
               <TrendingUp className="w-4 h-4" />
               <span className="text-sm font-medium">{t.home.hero.subtitle}</span>
             </div>
@@ -113,10 +113,10 @@ const Index = () => {
       </section>
 
       {/* Zalo Group Feed Section */}
-      <section id="live-trades" className="py-20 md:py-28 bg-secondary/30">
+      <section id="live-trades" className="py-20 md:py-28 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-accent/10 text-accent mb-4">
               <MessageCircle className="w-4 h-4" />
               <span className="text-sm font-medium">{t.home.community.title}</span>
             </div>
@@ -186,10 +186,10 @@ const Index = () => {
       </section>
 
       {/* Forex News Section */}
-      <section id="news" className="py-20 md:py-28 bg-secondary/30">
+      <section id="news" className="py-20 md:py-28 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-accent/10 text-accent mb-4">
               <Newspaper className="w-4 h-4" />
               <span className="text-sm font-medium">{t.home.news.subtitle}</span>
             </div>
@@ -256,19 +256,19 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 md:py-28 bg-primary">
+      <section className="py-24 md:py-32 bg-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
+          <h2 className="font-serif text-3xl md:text-5xl font-semibold text-background mb-6 tracking-wide">
             {t.home.community.title}
           </h2>
-          <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
+          <p className="text-background/70 max-w-2xl mx-auto mb-10 text-lg">
             {t.home.community.description}
           </p>
           <Button
             size="lg"
-            variant="secondary"
+            variant="outline"
             asChild
-            className="shadow-elevated hover:scale-105 transition-transform"
+            className="border-background/30 text-background hover:bg-background hover:text-foreground"
           >
             <Link to="/contact">
               {t.common.cta.contactUs}
